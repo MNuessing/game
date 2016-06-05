@@ -1,13 +1,18 @@
 package laenderVerwaltung;
 
+import Spielerverwaltung.ISpieler;
+
 public class Land implements ILand{
 	final private ILandeigenschaften landeigenschaften;
 	final private INachbarlaender nachbarlaender = null;
-	final private ISpieler besitzer;
+	private ISpieler besitzer;
 	
-	public Land(String name, ISpieler besitzer) {
+	public Land(String name) {
 		landeigenschaften = new Landeigenschaften(name);
-		this.besitzer = besitzer;
+		this.besitzer = null;
+	}
+	public String toString() {
+		return landeigenschaften.toString();
 	}
 	
 }

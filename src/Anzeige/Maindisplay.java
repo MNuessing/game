@@ -4,12 +4,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JToolBar;
+
+import laenderVerwaltung.IWeltkarte;
+
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 
 public class Maindisplay implements IMaindisplay {
 	final private JFrame frame;
+	final private IWeltkarte weltkarte;
 	
-	public Maindisplay() {
+	public Maindisplay(IWeltkarte weltkarte) {
+		this.weltkarte = weltkarte;
 		frame = new JFrame();
 		display();
 	}
@@ -27,11 +33,7 @@ public class Maindisplay implements IMaindisplay {
 		final JPanel panelMain = new JPanel();
 		frame.getContentPane().add(panelMain, BorderLayout.CENTER);
 		
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{100, 100, 100, 100, 100, 10};
-		gbl_panel_1.rowHeights = new int[]{100, 100, 100, 100, 100, 10};
-		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, 0.0, 10.0, 10.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 10.0, 10.0, Double.MIN_VALUE};
+		GridLayout gbl_panel_1 = new GridLayout(5,5);
 		panelMain.setLayout(gbl_panel_1);
 		
 		
@@ -39,7 +41,7 @@ public class Maindisplay implements IMaindisplay {
 	}
 
 	private IWeltkarteAnzeige generateButtons(JPanel panel_1) {
-		return new WeltkarteAnzeige(panel_1, 5, 5);
+		return new WeltkarteAnzeige(panel_1, weltkarte);
 	}
 
 	private void generateInfos(IWeltkarteAnzeige weltkarte) {

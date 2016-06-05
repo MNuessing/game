@@ -21,23 +21,22 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 	final IWeltkarte weltkarte;
 	final JLabel jlb_name;
 	
-	public WeltkarteAnzeige(JPanel panel, int breite, int hoehe) {
+	public WeltkarteAnzeige(JPanel panel, IWeltkarte weltkarte) {
 		this.panel = panel;
-		weltkarte = new Weltkarte(generateLaender(breite, hoehe));
-		generateButtons(breite, hoehe);
 		jlb_name = new JLabel();
+		this.weltkarte = weltkarte; 
+		generateButtons();
+		
 	}
 
-	private void generateButtons(int breite, int hoehe) {
-		for(int i = 0; i < 5; i++) {
-			for(int j = 0; j < 5; j++) {
-				String adsf = "Nooooooooooo";
-				final int ii = i;
-				final int jj = j;
-				JButton btnNewButton = new JButton("New button "+i+" "+j);
+	private void generateButtons() {
+		for(int i = 0; i < weltkarte.getBreite(); i++) {
+			for(int j = 0; j < weltkarte.getHoehe(); j++) {
+				final ILand land = weltkarte.getLand(i, j);
+				JButton btnNewButton = new JButton(land.toString());
 				btnNewButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						jlb_name.setText(ii+" "+jj);
+						jlb_name.setText(land.toString());
 					}
 				});
 				
@@ -51,16 +50,6 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 			}
 		}
 	}
-
-	private List<ILand> generateLaender(int breite, int hoehe) {
-		final List<ILand> laender = new ArrayList<ILand>();
-		for(int i = 0; i < breite; i++) {
-			for(int j = 0; j < hoehe; j++) {
-				laender.add(new Land(i+" "+j, null));
-			}
-		}
-		return laender;
-	}
 	
 	public void generateInfos(JPanel panelInfo) {
 		int y = 0; // y-Position for grid
@@ -69,7 +58,7 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
 			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNameDesLandes.gridx = 0;
-			gbc_lblNameDesLandes.gridy = 0;
+			gbc_lblNameDesLandes.gridy = y++;
 			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
 		}
 		{
@@ -77,7 +66,7 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
 			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNameDesLandes.gridx = 0;
-			gbc_lblNameDesLandes.gridy = 1;
+			gbc_lblNameDesLandes.gridy = y++;
 			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
 		}
 		{
@@ -85,7 +74,7 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
 			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNameDesLandes.gridx = 0;
-			gbc_lblNameDesLandes.gridy = 2;
+			gbc_lblNameDesLandes.gridy = y++;
 			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
 		}
 		{
@@ -94,7 +83,7 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 			gbc_lblNameDesLandes.anchor = GridBagConstraints.NORTH;
 			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNameDesLandes.gridx = 0;
-			gbc_lblNameDesLandes.gridy = 3;
+			gbc_lblNameDesLandes.gridy = y++;
 			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
 		}
 		{
@@ -102,7 +91,7 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
 			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNameDesLandes.gridx = 0;
-			gbc_lblNameDesLandes.gridy = 4;
+			gbc_lblNameDesLandes.gridy = y++;
 			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
 		} 
 		{
@@ -110,7 +99,7 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
 			gbc_lblNameDesLandes.insets = new Insets(0, 0, 0, 5);
 			gbc_lblNameDesLandes.gridx = 0;
-			gbc_lblNameDesLandes.gridy = 5;
+			gbc_lblNameDesLandes.gridy = y++;
 			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
 		}
 	}

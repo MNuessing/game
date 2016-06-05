@@ -1,5 +1,5 @@
 package Gebaeude;
 
-public class GebaeudeArt implements IGebaudeArt{
+public abstract class GebaeudeArt {
 
 }
