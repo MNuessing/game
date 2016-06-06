@@ -14,5 +14,13 @@ public class Land implements ILand{
 	public String toString() {
 		return landeigenschaften.toString();
 	}
+	@Override
+	public ISpieler getSpieler() {
+		return besitzer;
+	}
+	@Override
+	public void setSpieler(ISpieler aktuellerSpieler) {
+		besitzer = aktuellerSpieler;
+	}
 	
 }

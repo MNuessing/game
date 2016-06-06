@@ -20,10 +20,12 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 	final JPanel panel;
 	final IWeltkarte weltkarte;
 	final JLabel jlb_name;
+	final JLabel jlb_spieler;
 	
 	public WeltkarteAnzeige(JPanel panel, IWeltkarte weltkarte) {
 		this.panel = panel;
-		jlb_name = new JLabel();
+		jlb_name = new JLabel("Landname");
+		jlb_spieler = new JLabel("Spielername");
 		this.weltkarte = weltkarte; 
 		generateButtons();
 		
@@ -37,6 +39,7 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 				btnNewButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						jlb_name.setText(land.toString());
+						jlb_spieler.setText(land.getSpieler().toString());
 					}
 				});
 				
@@ -53,7 +56,7 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 	
 	public void generateInfos(JPanel panelInfo) {
 		int y = 0; // y-Position for grid
-		{
+		{	//Landnname
 			JLabel lblNameDesLandes = new JLabel("Name Des Aktuellen Landes:");
 			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
 			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
@@ -69,7 +72,18 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 			gbc_lblNameDesLandes.gridy = y++;
 			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
 		}
-		{
+		
+
+		{	//Spieler
+			JLabel lblNameDesLandes = jlb_spieler;
+			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
+			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
+			gbc_lblNameDesLandes.gridx = 0;
+			gbc_lblNameDesLandes.gridy = y++;
+			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
+		}
+		
+		{	//Gebaeude
 			JLabel lblNameDesLandes = new JLabel("Gebaeude:");
 			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
 			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
@@ -94,7 +108,8 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 			gbc_lblNameDesLandes.gridy = y++;
 			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
 		} 
-		{
+		
+		{	//Truppe
 			JLabel lblNameDesLandes = new JLabel("eigene Truppen");
 			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
 			gbc_lblNameDesLandes.insets = new Insets(0, 0, 0, 5);

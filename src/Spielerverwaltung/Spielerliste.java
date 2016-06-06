@@ -24,4 +24,9 @@ public class Spielerliste implements ISpielerliste{
 			spielerindex = 0;
 		return liste.get(spielerindex++);
 	}
+
+	@Override
+	public int anzSpieler() {
+		return liste.size();
+	}
 }
