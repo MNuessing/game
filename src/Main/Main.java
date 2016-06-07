@@ -1,6 +1,7 @@
 package Main;
 
 import Anzeige.Maindisplay;
+import Spielerverwaltung.ASpieler;
 import Spielerverwaltung.ISpielerliste;
 import Spielerverwaltung.Spieler;
 import Spielerverwaltung.Spielerliste;
@@ -18,8 +19,10 @@ public class Main {
 		IWeltkarte weltkarte = new Weltkarte(5, 5);
 		weltkarte.addSpieler(spielerliste);
 		
-		new Maindisplay(weltkarte);
-		
+		if (spielerliste.anzSpieler()>1){
+			ASpieler spieler = spielerliste.getAktuellerSpieler();
+			new Maindisplay(weltkarte, spieler);
+		}	
 		
 		
 	}

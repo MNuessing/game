@@ -1,26 +1,40 @@
 package laenderVerwaltung;
 
-import Spielerverwaltung.ISpieler;
+import Spielerverwaltung.ASpieler;
 
 public class Land implements ILand{
 	final private ILandeigenschaften landeigenschaften;
-	final private INachbarlaender nachbarlaender = null;
-	private ISpieler besitzer;
+	final private INachbarlaender nachbarlaender;
+	private ASpieler besitzer;
 	
 	public Land(String name) {
 		landeigenschaften = new Landeigenschaften(name);
 		this.besitzer = null;
+		nachbarlaender = new Nachbarlaender();
 	}
 	public String toString() {
 		return landeigenschaften.toString();
 	}
 	@Override
-	public ISpieler getSpieler() {
+	public ASpieler getSpieler() {
 		return besitzer;
 	}
 	@Override
-	public void setSpieler(ISpieler aktuellerSpieler) {
+	public void setSpieler(ASpieler aktuellerSpieler) {
 		besitzer = aktuellerSpieler;
+	}
+	@Override
+	public boolean istNachbarland(ILand land) {
+		return nachbarlaender.istNachbarland(land);
+	}
+	@Override
+	public void addNachbarland(ILand land) {
+		nachbarlaender.addLand(land);
+	}
+	@Override
+	public boolean nachbarlaenderHatSpieler(ASpieler spieler) {
+		return nachbarlaender.hatSpieler(spieler);
+		
 	}
 	
 }

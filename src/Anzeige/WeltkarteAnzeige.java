@@ -1,5 +1,6 @@
 package Anzeige;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -11,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Spielerverwaltung.ASpieler;
+import Spielerverwaltung.Bot;
 import laenderVerwaltung.ILand;
 import laenderVerwaltung.IWeltkarte;
 import laenderVerwaltung.Land;
@@ -21,12 +24,15 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 	final IWeltkarte weltkarte;
 	final JLabel jlb_name;
 	final JLabel jlb_spieler;
+	final ASpieler spieler;
 	
-	public WeltkarteAnzeige(JPanel panel, IWeltkarte weltkarte) {
+	
+	public WeltkarteAnzeige(JPanel panel, IWeltkarte weltkarte, ASpieler spieler) {
 		this.panel = panel;
 		jlb_name = new JLabel("Landname");
 		jlb_spieler = new JLabel("Spielername");
 		this.weltkarte = weltkarte; 
+		this.spieler = spieler;
 		generateButtons();
 		
 	}
@@ -36,13 +42,23 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 			for(int j = 0; j < weltkarte.getHoehe(); j++) {
 				final ILand land = weltkarte.getLand(i, j);
 				JButton btnNewButton = new JButton(land.toString());
-				btnNewButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						jlb_name.setText(land.toString());
-						jlb_spieler.setText(land.getSpieler().toString());
-					}
-				});
-				
+				if(land.getSpieler() == spieler || land.nachbarlaenderHatSpieler(spieler)){
+					
+					if(land.getSpieler() == spieler)
+						btnNewButton.setBackground(Color.RED);
+					else if(land.getSpieler() instanceof Bot)
+						btnNewButton.setBackground(Color.GRAY);
+					btnNewButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							jlb_name.setText(land.toString());
+							jlb_spieler.setText(land.getSpieler().toString());
+						}
+					});
+				}
+				else {
+					btnNewButton.disable();;
+					btnNewButton.setBackground(Color.BLACK);
+				}
 				
 				GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 				gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;

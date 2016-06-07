@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JToolBar;
 
+import Spielerverwaltung.ASpieler;
 import laenderVerwaltung.IWeltkarte;
 
 import java.awt.GridBagLayout;
@@ -13,21 +14,30 @@ import java.awt.GridLayout;
 public class Maindisplay implements IMaindisplay {
 	final private JFrame frame;
 	final private IWeltkarte weltkarte;
+	final private ASpieler spieler;
 	
-	public Maindisplay(IWeltkarte weltkarte) {
+	public Maindisplay(IWeltkarte weltkarte, ASpieler spieler) {
 		this.weltkarte = weltkarte;
-		frame = new JFrame();
+		this.spieler = spieler;
+		frame = new JFrame(spieler.toString());
 		display();
 	}
 
 	private void display() {
 		generateToolbar();
 		final IWeltkarteAnzeige weltkarte = generateMain();
-		generateInfos(weltkarte);
+		generateLandinfos(weltkarte);
 		frame.setVisible(true);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+
+	/*private void generateSpielerinfos() {
+		final JPanel panelSpielerinfos = new JPanel();
+		frame.getContentPane().add(panelSpielerinfos, BorderLayout.SOUTH);
+		
+		GridLayout gbl_panel_spielerinfos = new Gridlayout();
+	} */
 
 	private IWeltkarteAnzeige generateMain() {
 		final JPanel panelMain = new JPanel();
@@ -41,10 +51,10 @@ public class Maindisplay implements IMaindisplay {
 	}
 
 	private IWeltkarteAnzeige generateButtons(JPanel panel_1) {
-		return new WeltkarteAnzeige(panel_1, weltkarte);
+		return new WeltkarteAnzeige(panel_1, weltkarte, spieler);
 	}
 
-	private void generateInfos(IWeltkarteAnzeige weltkarte) {
+	private void generateLandinfos(IWeltkarteAnzeige weltkarte) {
 		JPanel panelInfo = new JPanel();
 		frame.getContentPane().add(panelInfo, BorderLayout.EAST);
 		

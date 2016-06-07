@@ -5,21 +5,21 @@ import java.util.List;
 
 public class Spielerliste implements ISpielerliste{
 	private int spielerindex;
-	private final List<ISpieler> liste;
+	private final List<ASpieler> liste;
 	
 	public Spielerliste() {
 		spielerindex = 0; 
-		liste = new ArrayList<ISpieler>();
+		liste = new ArrayList<ASpieler>();
 	}
 	
 	@Override
-	public boolean addSpieler(ISpieler spieler) {
+	public boolean addSpieler(ASpieler spieler) {
 		return liste.add(spieler);
 		
 	}
 
 	@Override
-	public ISpieler getAktuellerSpieler() {
+	public ASpieler getAktuellerSpieler() {
 		if (spielerindex >= liste.size())
 			spielerindex = 0;
 		return liste.get(spielerindex++);

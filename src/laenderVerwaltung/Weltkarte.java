@@ -15,9 +15,25 @@ public class Weltkarte implements IWeltkarte {
 		this.breite = breite;
 		this.hoehe = hoehe;		
 		laender = generateLaender();
-
+		setNachbarlaender();
 	}
 	
+	private void setNachbarlaender() {
+		for(int i = 0; i < hoehe; i++){
+			for(int j = 0; j < breite; j++){
+				ILand land = laender.get(i*hoehe+j);
+				if(i-1 >= 0)
+					land.addNachbarland(laender.get((i-1)*hoehe+j));							
+			   	if(i+1 <= 4)
+			   		land.addNachbarland(laender.get((i+1)*hoehe+j));
+				if(j-1 >= 0)
+					land.addNachbarland(laender.get((i)*hoehe+(j-1)));							
+			   	if(j+1 <= 4)
+			   		land.addNachbarland(laender.get((i)*hoehe+(j+1)));
+			}   		
+		}
+	}
+
 	private List<ILand> generateLaender() {
 		final List<ILand> laenderliste = new ArrayList<ILand>();
 		for(int i = 0; i < hoehe; i++)
