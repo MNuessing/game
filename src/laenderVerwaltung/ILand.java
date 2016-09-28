@@ -1,5 +1,8 @@
 package laenderVerwaltung;
 
+import javax.swing.Icon;
+
+import Gebaeude.IGebaeude;
 import Spielerverwaltung.ASpieler;
 
 public interface ILand {
@@ -15,4 +18,7 @@ public interface ILand {
 	public void addNachbarland(ILand land);
 
 	public boolean nachbarlaenderHatSpieler(ASpieler spieler);
+
+	public IGebaeude getGebaeude();
+
 }

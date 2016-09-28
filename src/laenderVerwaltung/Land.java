@@ -1,5 +1,6 @@
 package laenderVerwaltung;
 
+import Gebaeude.IGebaeude;
 import Spielerverwaltung.ASpieler;
 
 public class Land implements ILand{
@@ -7,8 +8,8 @@ public class Land implements ILand{
 	final private INachbarlaender nachbarlaender;
 	private ASpieler besitzer;
 	
-	public Land(String name) {
-		landeigenschaften = new Landeigenschaften(name);
+	public Land(String name, int anzahlGebaeude) {
+		landeigenschaften = new Landeigenschaften(name, anzahlGebaeude);
 		this.besitzer = null;
 		nachbarlaender = new Nachbarlaender();
 	}
@@ -35,6 +36,10 @@ public class Land implements ILand{
 	public boolean nachbarlaenderHatSpieler(ASpieler spieler) {
 		return nachbarlaender.hatSpieler(spieler);
 		
+	}
+	@Override
+	public IGebaeude getGebaeude() {
+		return landeigenschaften.getGebaeude();
 	}
 	
 }

@@ -20,21 +20,18 @@ import laenderVerwaltung.Land;
 import laenderVerwaltung.Weltkarte;
 
 public class WeltkarteAnzeige implements IWeltkarteAnzeige {
-	final JPanel panel;
-	final IWeltkarte weltkarte;
-	final JLabel jlb_name;
-	final JLabel jlb_spieler;
-	final ASpieler spieler;
-	
+	final private JPanel panel;
+	private JPanel panelInfo;
+	final private IWeltkarte weltkarte;
+	final private ASpieler spieler;
+	private ILand aktuellesLand;
 	
 	public WeltkarteAnzeige(JPanel panel, IWeltkarte weltkarte, ASpieler spieler) {
 		this.panel = panel;
-		jlb_name = new JLabel("Landname");
-		jlb_spieler = new JLabel("Spielername");
 		this.weltkarte = weltkarte; 
 		this.spieler = spieler;
+		aktuellesLand = new Land("", 0);
 		generateButtons();
-		
 	}
 
 	private void generateButtons() {
@@ -50,8 +47,8 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 						btnNewButton.setBackground(Color.GRAY);
 					btnNewButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							jlb_name.setText(land.toString());
-							jlb_spieler.setText(land.getSpieler().toString());
+							aktuellesLand = land;
+							generateInfos(panelInfo);
 						}
 					});
 				}
@@ -72,7 +69,8 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 	
 	public void generateInfos(JPanel panelInfo) {
 		int y = 0; // y-Position for grid
-		{	//Landnname
+		this.panelInfo = panelInfo;
+		{	//Landname
 			JLabel lblNameDesLandes = new JLabel("Name Des Aktuellen Landes:");
 			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
 			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
@@ -81,7 +79,7 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
 		}
 		{
-			JLabel lblNameDesLandes = jlb_name;
+			JLabel lblNameDesLandes = new JLabel(aktuellesLand.toString());
 			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
 			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNameDesLandes.gridx = 0;
@@ -91,47 +89,50 @@ public class WeltkarteAnzeige implements IWeltkarteAnzeige {
 		
 
 		{	//Spieler
-			JLabel lblNameDesLandes = jlb_spieler;
-			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
-			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
-			gbc_lblNameDesLandes.gridx = 0;
-			gbc_lblNameDesLandes.gridy = y++;
-			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
+			JLabel lblNameDesSpielers;
+			if (aktuellesLand != null && aktuellesLand.getSpieler() != null){
+				lblNameDesSpielers = new JLabel(aktuellesLand.getSpieler().toString());
+			} else {
+				lblNameDesSpielers = new JLabel("");
+			}
+			GridBagConstraints gbc_lblNameDesSpielers = new GridBagConstraints();
+			gbc_lblNameDesSpielers.insets = new Insets(0, 0, 5, 5);
+			gbc_lblNameDesSpielers.gridx = 0;
+			gbc_lblNameDesSpielers.gridy = y++;
+			panelInfo.add(lblNameDesSpielers, gbc_lblNameDesSpielers);
 		}
 		
 		{	//Gebaeude
-			JLabel lblNameDesLandes = new JLabel("Gebaeude:");
-			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
-			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
-			gbc_lblNameDesLandes.gridx = 0;
-			gbc_lblNameDesLandes.gridy = y++;
-			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
+			JLabel lblNameDesGebaeudes = new JLabel("Gebaeude:");
+			GridBagConstraints gbc_lblNameDesGebaeudes = new GridBagConstraints();
+			gbc_lblNameDesGebaeudes.insets = new Insets(0, 0, 5, 5);
+			gbc_lblNameDesGebaeudes.gridx = 0;
+			gbc_lblNameDesGebaeudes.gridy = y++;
+			panelInfo.add(lblNameDesGebaeudes, gbc_lblNameDesGebaeudes);
 		}
-		{
-			JLabel lblNameDesLandes = new JLabel("Gebaeude 1");
-			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
-			gbc_lblNameDesLandes.anchor = GridBagConstraints.NORTH;
-			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
-			gbc_lblNameDesLandes.gridx = 0;
-			gbc_lblNameDesLandes.gridy = y++;
-			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
+		for(int i = 0; i < aktuellesLand.getGebaeude().getGebaeudeAnzahl(); i++)
+		{	// Ein Button für ein freien Gebäudeplatz
+			JButton btnGebaeude = new JButton(aktuellesLand.getGebaeude().getGebaeude(i).getInfo().getName());
+			GridBagConstraints gbc_btnGebaeude = new GridBagConstraints();
+			gbc_btnGebaeude.anchor = GridBagConstraints.NORTH;
+			gbc_btnGebaeude.insets = new Insets(0, 0, 5, 5);
+			gbc_btnGebaeude.gridx = 0;
+			gbc_btnGebaeude.gridy = y++;
+			panelInfo.add(btnGebaeude, gbc_btnGebaeude);
+			btnGebaeude.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new GebaeudeInfoAnzeige(btnGebaeude);				
+				}
+			});
 		}
-		{
-			JLabel lblNameDesLandes = new JLabel("Gebaeude 2");
-			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
-			gbc_lblNameDesLandes.insets = new Insets(0, 0, 5, 5);
-			gbc_lblNameDesLandes.gridx = 0;
-			gbc_lblNameDesLandes.gridy = y++;
-			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
-		} 
-		
 		{	//Truppe
-			JLabel lblNameDesLandes = new JLabel("eigene Truppen");
-			GridBagConstraints gbc_lblNameDesLandes = new GridBagConstraints();
-			gbc_lblNameDesLandes.insets = new Insets(0, 0, 0, 5);
-			gbc_lblNameDesLandes.gridx = 0;
-			gbc_lblNameDesLandes.gridy = y++;
-			panelInfo.add(lblNameDesLandes, gbc_lblNameDesLandes);
+			JLabel lblEigeneTruppen = new JLabel("eigene Truppen");
+			GridBagConstraints gbc_lblEigeneTruppen = new GridBagConstraints();
+			gbc_lblEigeneTruppen.insets = new Insets(0, 0, 0, 5);
+			gbc_lblEigeneTruppen.gridx = 0;
+			gbc_lblEigeneTruppen.gridy = y++;
+			panelInfo.add(lblEigeneTruppen, gbc_lblEigeneTruppen);
 		}
 	}
 }

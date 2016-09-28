@@ -38,7 +38,7 @@ public class Weltkarte implements IWeltkarte {
 		final List<ILand> laenderliste = new ArrayList<ILand>();
 		for(int i = 0; i < hoehe; i++)
 			for(int j=0; j < breite; j++)
-				laenderliste.add(new Land(i+" " +j));
+				laenderliste.add(new Land(i+" " +j, 2));
 		
 		return laenderliste;
 	}

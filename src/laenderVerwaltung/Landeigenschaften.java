@@ -11,14 +11,19 @@ public class Landeigenschaften implements ILandeigenschaften {
 	final private IArmee ankommendeTruppen;
 	final private IGebaeude gebaeude;
 	
-	public Landeigenschaften(String name) {
+	public Landeigenschaften(String name, int anzahlGebaeude) {
 		this.name = name;
 		truppen = new Armee();
 		ankommendeTruppen = new Armee();
-		gebaeude = new Gebaeude();
+		gebaeude = new Gebaeude(anzahlGebaeude);
 	}
 	
 	public String toString(){
 		return name;
+	}
+
+	@Override
+	public IGebaeude getGebaeude() {
+		return gebaeude;
 	}
 }
